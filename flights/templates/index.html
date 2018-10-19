@@ -1,8 +1,56 @@
 {% extends "base_flights.html" %}
+{% load static %}
 {% block title %}
     <title>Home</title>
 {% endblock %}
 
 {% block content %}
-    <h1>This is the Home Page</h1>
+    <section id="fw-image">
+        <img src="{% static "flights/images/air.jpg" %}" alt="Air" />
+        <p>Fly with comfort</p>
+    </section>
+    <section class="container">
+        <ul class="nav nav-tabs form-switcher">
+            <li role="presentation" class="active"><a data-toggle="tab" href="#book">Book Flight</a></li>
+            <li role="presentation"><a data-toggle="tab" href="#flight-status">Flight Status</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="book" class="tab-pane fade in active">
+                <div>
+                    <label for="round-trip">Round Trip</label>
+                    <input type="radio" name="round-trip" id="round-trip">
+                    <label for="one-way">One Way </label>
+                    <input type="radio" name="one-way" id="one-way">
+                </div>
+                 <form action="" method="POST" class="search-flights-form">
+                    {% csrf_token %}
+                    {{ form }}
+                     <input type="submit" value="Search Flights">
+                </form>
+            </div>
+            <div id="flight-status" class="tab-pane fade">
+                <p>Display Flights</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <article class="how-to">
+            <span>
+                <i class="fas fa-search fa-2x"></i>
+            </span>
+            <p>Search for flights to a destination of your choice within Nigeria,</p>
+        </article>
+        <article class="how-to">
+            <span>
+                <i class="fas fa-cart-plus fa-2x"></i>
+            </span>
+            <p>Flights are scheduled for your comfort and convenience.</p>
+        </article>
+        <article class="how-to">
+            <span>
+                <i class="far fa-credit-card fa-2x"></i>
+            </span>
+            <p>Book your flights and pay online with an option to book on-hold and pay later.</p>
+        </article>
+    </section>
 {% endblock %}

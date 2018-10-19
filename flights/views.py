@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from .forms import SearchFlights
 
 
 def index(request):
-    return render(request, 'index.html', {'title': 'Home'})
+    form = SearchFlights()
+    return render(request, 'index.html', {'title': 'Home', 'form': form})
 
 
 def flights(request):
