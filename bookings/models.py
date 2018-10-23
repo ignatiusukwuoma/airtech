@@ -12,7 +12,8 @@ class BookingStatus(Model):
 class Trip(Model):
     """A model defining a Trip"""
 
-    passenger_name = CharField(max_length=254)
+    passenger_first_name = CharField(max_length=100)
+    passenger_last_name = CharField(max_length=100)
     passenger_dob = DateField()
 
 
@@ -23,9 +24,9 @@ class Booking(Model):
     e_booking = CharField(max_length=32, unique=True, blank=True, default=generate_uuid)
     user = ForeignKey(User, on_delete=CASCADE, blank=True, null=True)
     booking_status = ForeignKey(BookingStatus, on_delete=CASCADE)
-    contact_name = CharField(max_length=254)
+    contact_first_name = CharField(max_length=100)
+    contact_last_name = CharField(max_length=100)
     contact_email = EmailField(max_length=254)
-    contact_phone = CharField(validators=[phone_regex], max_length=11)
 
 
 class Ticket(Model):
@@ -41,7 +42,6 @@ class Ticket(Model):
     flight = ForeignKey('flights.Flight', on_delete=CASCADE)
     trip = ForeignKey(Trip, on_delete=CASCADE)
     booking = ForeignKey(Booking, on_delete=CASCADE)
-
     ticket_class = CharField(max_length=1, choices=CLASS, default=ECONOMY)
     e_ticket = CharField(max_length=10, unique=True, blank=True)
     issue_date = DateField(auto_now_add=True)

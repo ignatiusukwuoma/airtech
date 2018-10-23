@@ -54,10 +54,12 @@ class Flight(Model):
     updated_at = DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        duration = get_flight_duration(self.departure, self.destination)
-        self.flight_duration = duration
+        if not self.flight_duration:
+            duration = get_flight_duration(self.departure, self.destination)
+            self.flight_duration = duration
         if not self.last_update:
             self.last_update = self.scheduled
+
         super().save(*args, **kwargs)
 
     def __str__(self):

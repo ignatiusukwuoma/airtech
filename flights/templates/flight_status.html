@@ -1,0 +1,80 @@
+{% extends "base_flights.html" %}
+{% block title %}
+    <title>{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <main>
+        <section class="container">
+            <h6>Use any of the following options to search for your flight</h6>
+            <ul class="nav nav-tabs nav-fill" id="form-switcher" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" id="status-by-airport-tab" data-toggle="tab" role="tab"
+                       aria-controls="status-by-airport" aria-selected="true" href="#status-by-airport">
+                        Airport
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#status-by-number" id="status-by-number-tab" data-toggle="tab" role="tab"
+                        aria-controls="status-by-number" aria-selected="true">
+                        Flight Number
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="status-by-airport" class="tab-pane fade" role="tabpanel"
+                     aria-labelledby="status-by-airport-tab">
+                    <form action="{% url 'flights:flight_status' %}" method="POST" class="status-form" id="by-airport">
+                        {% csrf_token %}
+                        {{ flight_status_by_airport }}
+                        <input type="submit" class="btn submit-status-airport" value="Display Flight Status">
+                    </form>
+                </div>
+                <div id="status-by-number" class="tab-pane fade show active" role="tabpanel" aria-labelledby="status-by-number-tab">
+                    <form action="{% url 'flights:flight_status' %}" method="POST" class="status-form"
+                          id="status-by-number">
+                        {% csrf_token %}
+                        {{ flight_status_by_number }}
+                        <input type="submit" class="btn submit-status-number" value="Display Flight Status">
+                    </form>
+                </div>
+            </div>
+        </section>
+        <section>
+        {% if flights %}
+            <caption>Flight Status Result</caption>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Flight Number</th>
+                            <th scope="col">From</th>
+                            <th scope="col">To</th>
+                            <th scope="col">Scheduled</th>
+                            <th scope="col">Last Update</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for flight in flights %}
+                        <tr>
+                            <td>{{ flight.flight_number }}</td>
+                            <td>{{ flight.departure }}</td>
+                            <td>{{ flight.destination }}</td>
+                            <td>{{ flight.scheduled }}</td>
+                            <td>{{ flight.last_update }}</td>
+                            <td>{{ flight.flight_status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p>All times are in West African Time (GMT +1)</p>
+            </div>
+        {% else %}
+            <div>
+                <p>We could not find your flight from the information given. Please try again!</p>
+            </div>
+        {% endif %}
+        </section>
+    </main>
+{% endblock %}

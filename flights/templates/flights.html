@@ -1,8 +1,117 @@
 {% extends "base_flights.html" %}
 {% block title %}
-    <title>Flights</title>
+    <title>{{ title }}</title>
 {% endblock %}
 
 {% block content %}
-    <h1>This is the Flights Page</h1>
+    <main class="container">
+        <header>Select Flight</header>
+        <section>
+            <div>
+                <span>
+                    {{ search.from_location.iata }}
+                </span>
+                <span>
+                    {{ search.from_location.city }}
+                </span>
+                {% if search.returning_date %}
+                    <i class="fas fa-arrows-alt-h"></i>
+                {% else %}
+                    <i class="fas fa-arrow-circle-right"></i>
+                {% endif %}
+                <span>
+                    {{ search.to_location.iata }}
+                </span>
+                <span>
+                    {{ search.to_location.city }}
+                </span>
+            </div>
+            <span>
+                {{ search.departure_date|date:"D, d M Y" }}
+                {% if search.returning_date %}
+                    - {{ search.returning_date|date:"D, d M Y" }}
+                {% endif %}
+            </span>
+            <span>
+                {{ search.adults }} Adults
+                {% if search.children %}
+                    {{ search.children }} Children
+                {% endif %}
+                {% if search.infants %}
+                    {{ search.infants }} Infants
+                {% endif %}
+            </span>
+            <button type="button" class="btn pry-color">Modify Search</button>
+        </section>
+        <section>
+            <header>Outbound Flight</header>
+            <h2>
+                {{ search.from_location.city }}
+                <i class="fas fa-arrow-right"></i>
+                {{ search.to_location.city }}
+            </h2>
+        </section>
+        <section>
+            <div>
+                {% for flight_info in departure_flights %}
+                    <div>
+                        <a href="">
+                            <span>{{ flight_info.date }}</span>
+                            {% if flight_info.flights %}
+                                <span>from {{ flight_info.cheapest_flight }}</span>
+                            {% else %}
+                                <span>No flights</span>
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div>
+                        <article>
+                            {% if flight_info.flights %}
+                                {% for flight in flight_info %}
+                                    <div>
+                                        <p>Departure</p>
+                                        <div>
+                                            <span>{{ flight.last_update|date:"H:i" }}</span>
+                                            <span>{{ flight.departure.airport }}
+                                                {{ flight.departure.city }}, {{ flight.departure.country }}
+                                            </span>
+                                            <span>{{ flight.flight_number }}, {{ flight.aircraft }}</span>
+                                            <p>Operated by: Airtech Airways</p>
+                                        </div>
+                                    </div>
+                                    <span>
+                                        {{ flight.flight_duration }}
+                                    </span>
+                                    <div>
+                                        <p>Arrival</p>
+                                        <div>
+                                            <span>{{ flight.last_update|date:"H:i" }}</span>
+                                            <span>{{ flight.destination.airport }}
+                                                {{ flight.destination.city }}, {{ flight.destination.country }}
+                                            </span>
+                                            <span>{{ flight.flight_number }}, {{ flight.aircraft }}</span>
+                                            <p>Operated by: Airtech Airways</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p>Choose preferred flight</p>
+                                        <div>
+                                            <div>
+                                                <span>Economy</span>
+                                                <span>{{ flight.price_economy }}</span>
+                                            </div>
+                                            <div>
+                                                <span>Business</span>
+                                                <span>{{ flight.price_business }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
 {% endblock %}

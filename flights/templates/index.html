@@ -5,52 +5,85 @@
 {% endblock %}
 
 {% block content %}
-    <section id="fw-image">
-        <img src="{% static "flights/images/air.jpg" %}" alt="Air" />
-        <p>Fly with comfort</p>
-    </section>
-    <section class="container">
-        <ul class="nav nav-tabs form-switcher">
-            <li role="presentation" class="active"><a data-toggle="tab" href="#book">Book Flight</a></li>
-            <li role="presentation"><a data-toggle="tab" href="#flight-status">Flight Status</a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="book" class="tab-pane fade in active">
-                <div>
-                    <label for="round-trip">Round Trip</label>
-                    <input type="radio" name="round-trip" id="round-trip">
-                    <label for="one-way">One Way </label>
-                    <input type="radio" name="one-way" id="one-way">
+    <main>
+        <header id="fw-image">
+            <img src="{% static "flights/images/air.jpg" %}"
+                 srcset="{% static "flights/images/air0.jpg" %} 500w,
+                        {% static "flights/images/air.jpg" %} 1200w,
+                        {% static "flights/images/air2.jpg" %} 2000w"
+                 alt="Air"
+            />
+            <p class="text-light">Fly...<br> in comfort</p>
+        </header>
+        <section class="container">
+            <ul class="nav nav-tabs nav-fill" id="form-switcher" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="book-tab" data-toggle="tab" role="tab" aria-controls="book"
+                       aria-selected="true" href="#book">
+                        Book Flight
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#flights" id="flights-tab" data-toggle="tab" role="tab"
+                        aria-controls="flights" aria-selected="true">
+                        Flight Status
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="book" class="tab-pane fade show active" role="tabpanel" aria-labelledby="book-tab">
+                    <div class="trip-mode-switch">
+                        <div class="form-check">
+                            <label class="trip-mode" for="round-trip">Round Trip</label>
+                            <input class="trip-mode-label" type="radio" name="round-trip" id="round-trip" value="round-trip" checked>
+                        </div>
+                        <div class="form-check">
+                            <label class="trip-mode" for="one-way">One way</label>
+                            <input class="trip-mode-label" type="radio" name="one-way" id="one-way" value="one-way">
+                        </div>
+                    </div>
+                     <form action="{% url 'flights:search_flights' %}" method="POST" class="book-form">
+                        {% csrf_token %}
+                        {{ search_flights }}
+                         <input type="submit" class="btn submit-flight-search" value="Search Flights">
+                    </form>
                 </div>
-                 <form action="" method="POST" class="search-flights-form">
-                    {% csrf_token %}
-                    {{ form }}
-                     <input type="submit" value="Search Flights">
-                </form>
+                <div id="flights" class="tab-pane fade" role="tabpanel" aria-labelledby="flights-tab">
+                    <form action="{% url 'flights:flight_status' %}" method="POST" class="status-form" id="by-airport">
+                        {% csrf_token %}
+                        {{ flight_status_by_airport }}
+                        <input type="submit" class="btn submit-status-airport" value="Display Flight Status">
+                    </form>
+                    <span>OR</span>
+                    <form action="{% url 'flights:flight_status' %}" method="POST" class="status-form" id="by-number">
+                        {% csrf_token %}
+                        {{ flight_status_by_number }}
+                        <input type="submit" class="btn submit-status-number" value="Display Flight Status">
+                    </form>
+                </div>
             </div>
-            <div id="flight-status" class="tab-pane fade">
-                <p>Display Flights</p>
+        </section>
+        <section class="container how-to-section">
+            <div class="row">
+                <article class="how-to col-sm">
+                    <div>
+                        <i class="fas fa-search fa-2x"></i>
+                    </div>
+                    <p>Search for flights to a destination of your choice within Nigeria.</p>
+                </article>
+                <article class="how-to col-sm">
+                    <div>
+                        <i class="fas fa-cart-plus fa-2x"></i>
+                    </div>
+                    <p>Flights are scheduled for your comfort and convenience so no stress for you.</p>
+                </article>
+                <article class="how-to col-sm">
+                    <div>
+                        <i class="far fa-credit-card fa-2x"></i>
+                    </div>
+                    <p>Book your flights and pay online with an option to book on-hold and pay later.</p>
+                </article>
             </div>
-        </div>
-    </section>
-    <section>
-        <article class="how-to">
-            <span>
-                <i class="fas fa-search fa-2x"></i>
-            </span>
-            <p>Search for flights to a destination of your choice within Nigeria,</p>
-        </article>
-        <article class="how-to">
-            <span>
-                <i class="fas fa-cart-plus fa-2x"></i>
-            </span>
-            <p>Flights are scheduled for your comfort and convenience.</p>
-        </article>
-        <article class="how-to">
-            <span>
-                <i class="far fa-credit-card fa-2x"></i>
-            </span>
-            <p>Book your flights and pay online with an option to book on-hold and pay later.</p>
-        </article>
-    </section>
+        </section>
+    </main>
 {% endblock %}

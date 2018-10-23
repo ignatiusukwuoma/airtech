@@ -3,73 +3,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          crossorigin="anonymous">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
           integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
           crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600|Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'flights/style.css' %}">
     {% block title %}
     <title>Fly Airtech</title>
     {% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Fly Airtech</a>
-            </div>
-            <div class="login-button">
-                <a class="mobile-hidden" href="#">Login</a>
-                <i class="fas fa-user fa-2x"></i>
-            </div>
-        </div>
+    <nav class="navbar navbar-dark pry-color">
+        <a class="navbar-brand" href="/">Fly Airtech</a>
+        <span class="login-button">
+            <a class="text-light mobile-hidden" href="#">Login</a>
+            <a href="#"><i class="text-light fas fa-user fa-2x"></i></a>
+        </span>
     </nav>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-    <footer>
-
-    </footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-</body>
-<footer>
-    <article>
-        <header>Fly Airtech</header>
-        <p>
-            Book flights to various parts of Nigeria with Airtech, Nigeria's leading airline offering domestic flights
-        </p>
-    </article>
-    <section>
-        <h4>Let us stay Connected</h4>
-        <div>
-            <i class="fab fa-twitter-square"></i>
-            <i class="fab fa-instagram"></i>
-            <i class="fab fa-facebook-square"></i>
+    {% block content %}
+    {% endblock %}
+    <footer class="bg-dark">
+        <div class="container">
+            <div class="row">
+                <article class="footer-info col-sm">
+                    <h4>Fly Airtech</h4>
+                    <p>
+                        Book flights to various parts of Nigeria with Airtech,
+                        Nigeria's leading airline offering domestic flights
+                    </p>
+                </article>
+                <article class="footer-social col-sm">
+                    <h4>Let us stay Connected</h4>
+                    <div>
+                        <i class="fab fa-twitter-square fa-3x"></i>
+                        <i class="fab fa-instagram fa-3x"></i>
+                        <i class="fab fa-facebook-square fa-3x"></i>
+                    </div>
+                </article>
+                <article class="footer-contact col-sm">
+                    <h4>Contact Us</h4>
+                    <div>
+                        <i class="far fa-building fa-2x"></i>
+                        <p>81 Adetola Street, Surulere, Lagos</p>
+                    </div>
+                    <div>
+                        <i class="far fa-envelope fa-2x"></i>
+                        <p>flyairtech@airtechgroup.com</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-phone-square fa-2x"></i>
+                        <p>+234 8069542385</p>
+                    </div>
+                </article>
+            </div>
         </div>
-    </section>
-    <section>
-        <h4>Contact Us</h4>
-        <span>
-            <i class="far fa-building"></i>
-            <p>81 Adetola Street, Surulere, Lagos</p>
-        </span>
-        <span>
-            <i class="far fa-envelope"></i>
-            <p>flyairtech@airtechgroup.com</p>
-        </span>
-        <span>
-            <i class="fas fa-phone-square"></i>
-            <p>+234 8069542385</p>
-        </span>
-    </section>
-</footer>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous">
+    </script>
+</body>
 </html>
