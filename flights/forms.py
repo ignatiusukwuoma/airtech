@@ -1,4 +1,6 @@
-from django.forms import Form, ModelChoiceField, DateField, IntegerField, CharField, DateInput, Select
+from django.forms import Form, ModelChoiceField, DateField, IntegerField, CharField, EmailField, DateInput, Select
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .models import Location
 from .utils import tomorrow
 
@@ -43,3 +45,12 @@ class FlightStatusByAirport(Form):
 class FlightStatusByNumber(Form):
     flight_number = CharField(max_length=20)
 
+
+class SignUpForm(UserCreationForm):
+    first_name = CharField(max_length=30, required=False)
+    last_name = CharField(max_length=30, required=False)
+    email = EmailField(max_length=254)
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')

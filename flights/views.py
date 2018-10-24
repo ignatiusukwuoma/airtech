@@ -1,7 +1,24 @@
+from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from .forms import SearchFlights, FlightStatusByAirport, FlightStatusByNumber
+from .forms import SearchFlights, FlightStatusByAirport, FlightStatusByNumber, SignUpForm
 from .models import Flight
 from .utils import flight_date_range, generate_flight_dates
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(request, username=username, password=raw_password)
+            if user is not None:
+                login(request, user)
+            return redirect('index')
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
 
 
 def index(request):

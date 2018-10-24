@@ -1,12 +1,25 @@
-from django.db.models import Model, ForeignKey, CASCADE, SET_NULL, CharField, DateField, EmailField
+from django.db.models import Model, ForeignKey, CASCADE, SET_NULL, CharField, DateField, EmailField, OneToOneField,\
+    ImageField
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from .utils import generate_e_ticket, generate_uuid
 
 
-class BookingStatus(Model):
-    name = CharField(max_length=30)
+class Profile(Model):
+    user = OneToOneField(User, on_delete=CASCADE)
+    passport = ImageField(upload_to='images/')
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
 
 class Trip(Model):
@@ -15,6 +28,10 @@ class Trip(Model):
     passenger_first_name = CharField(max_length=100)
     passenger_last_name = CharField(max_length=100)
     passenger_dob = DateField()
+
+
+class BookingStatus(Model):
+    name = CharField(max_length=30)
 
 
 class Booking(Model):
@@ -53,5 +70,3 @@ class Ticket(Model):
                 break
         self.e_ticket = ticket
         super().save(*args, **kwargs)
-
-
