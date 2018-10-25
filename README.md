@@ -9,7 +9,7 @@ application for the company.
 1.  Ensure you have Python3 installed in your system. Python 3.5 and above is required to use Django 2.1
 
 2.  If you do not have virtualenv or virtualenvwrapper setup, install virtualenv which is a tool
-that lets you create an isolated Python environment for your project.
+that lets you create an isolated Python environment for your project. 
 ```commandline
 pip3 install virtualenv
 ```
@@ -38,7 +38,7 @@ inside the virtualenv.
 
 6. Install the required packages
 ```commandline
-pip install -r requirements.txt 
+pip3 install -r requirements.txt 
 ```
 
 7. Create a `.env` file in the root directory with the content of the `.env.sample` and edit with your personal details.
@@ -48,7 +48,7 @@ pip install -r requirements.txt
 To run this application on your local computer, follow the instructions in Installation above and run
 
 ```commandline
-python manage.py runserver
+python3 manage.py runserver
 ```
 
 ## Stopping the app
