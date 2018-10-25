@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load flights_extras %}
 {% block title %}
     <title>{{ title }}</title>
 {% endblock %}
@@ -65,69 +66,91 @@
         </section>
         <section class="container book-flight-flights">
             <hr>
-            <div class="row">
+            <ul class="row nav nav-pills" role="tablist" id="flights-pills-tab">
                 {% for flight_info in departure_flights %}
-                <div class="col">
-                    <a href="">
-                        <div class="flight-date-info">
+                <li class="col nav-item">
+                    <a class="nav-link {% if flight_info.date|date:'Dd' == search.departure_date|date:'Dd' %} active {% endif %}"
+                       id="flights-pills-tab-{{ flight_info.date|date:'D-d' }}" data-toggle="pill"
+                       href="#flights-pills-{{ flight_info.date|date:'D-d' }}" role="tab"
+                       aria-controls="flights-pills-{{ flight_info.date|date:'D-d' }}" aria-selected="true">
+                        <div class="text-center">
                             <p class="flight-date">{{ flight_info.date|date:'D, d M' }}</p>
                             {% if flight_info.flights %}
-                                <p class="flight-cheapest">from {{ flight_info.cheapest_flight.normalize }} NGN</p>
+                                <p class="flight-cheapest">from N{{ flight_info.cheapest_flight.normalize }}</p>
                             {% else %}
                                 <p class="flight-cheapest">No flights</p>
                             {% endif %}
                         </div>
                     </a>
-                </div>
+                </li>
                 {% endfor %}
-            </div>
+            </ul>
             <hr>
-            <div class="row">
+            <div class="row tab-content" id="flights-pills-tabContent">
             {% for flight_info in departure_flights %}
                     {% for flight in flight_info.flights %}
-                        <div>
-                            <p>Departure</p>
-                            <div>
-                                <span>{{ flight.last_update|date:"H:i" }}</span>
-                                <span>{{ flight.departure.airport }}
-                                    {{ flight.departure.city }}, {{ flight.departure.country }}
-                                </span>
-                                <span>{{ flight.flight_number }}, {{ flight.aircraft }}</span>
-                                <p>Operated by: Airtech Airways</p>
-                            </div>
-                        </div>
-                        <span>
-                            {{ flight.flight_duration }}
-                        </span>
-                        <div>
-                            <p>Arrival</p>
-                            <div>
-                                <span>{{ flight.last_update|date:"H:i" }}</span>
-                                <span>{{ flight.destination.airport }}
-                                    {{ flight.destination.city }}, {{ flight.destination.country }}
-                                </span>
-                                <span>{{ flight.flight_number }}, {{ flight.aircraft }}</span>
-                                <p>Operated by: Airtech Airways</p>
-                            </div>
-                        </div>
-                        <div>
-                            <p>Choose preferred flight</p>
-                            <div>
+                        <div class="d-flex row tab-pane fade {% if flight_info.date|date:'Dd' == search.departure_date|date:'Dd' %} active show {% endif %}"
+                             id="flights-pills-{{ flight_info.date|date:'D-d' }}"
+                             role="tabpanel" aria-labelledby="flights-pills-tab-{{ flight_info.date|date:'D-d' }}">
+                            <div class="col-sm-3 book-flight-flight-header">
+                                <p class="text-center">Departure</p>
                                 <div>
-                                    <span>Economy</span>
-                                    <span>{{ flight.price_economy }}</span>
+                                    <p>
+                                        <span class="font-weight-bold">{{ flight.last_update|date:"H:i" }}</span>
+                                        <span>{{ flight.departure.iata }}</span>
+                                    </p>
+                                    <p>{{ flight.departure.airport }}
+                                        {{ flight.departure.city }}, {{ flight.departure.country }}
+                                    </p>
+                                    <p>{{ flight.flight_number }}, {{ flight.aircraft }}</p>
+                                    <p>Operated by: Airtech Airways</p>
                                 </div>
+                            </div>
+                            <span class="d-flex flex-column align-items-center col-sm-2 align-self-center">
+                                <i class="fas fa-clock mb-2"></i>
+                                {{ flight.flight_duration|duration }}
+                            </span>
+                            <div class="col-sm-3 book-flight-flight-header">
+                                <p class="text-center">Arrival</p>
                                 <div>
-                                    <span>Business</span>
-                                    <span>{{ flight.price_business }}</span>
+                                    <p>
+                                        <span class="font-weight-bold">{{ flight.last_update|date:"H:i" }}</span>
+                                        <span>{{ flight.destination.iata }}</span>
+                                    </p>
+                                    <p>{{ flight.destination.airport }}
+                                        {{ flight.destination.city }}, {{ flight.destination.country }}
+                                    </p>
+                                    <p>{{ flight.flight_number }}, {{ flight.aircraft }}</p>
+                                    <p>Operated by: Airtech Airways</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 book-flight-flight-header flight-classes">
+                                <p class="text-center">Choose preferred flight</p>
+                                <div class="d-flex justify-content-around">
+                                    <div class="d-flex flex-column align-items-center justify-content-around p-2
+                                        flight-class bg-primary text-white">
+                                        <p>Economy</p>
+                                        <p>{{ flight.price_economy.normalize }}</p>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-center justify-content-around p-2
+                                        bg-secondary text-white flight-class">
+                                        <p>Business</p>
+                                        <p>{{ flight.price_business.normalize }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     {% empty %}
-                        <div>No flights on this day</div>
+                        <div class="tab-pane fade" id="flights-pills-{{ flight_info.date|date:'D-d' }}"
+                             role="tabpanel" aria-labelledby="flights-pills-tab-{{ flight_info.date|date:'D-d' }}">
+                            <p>No flights on this day</p>
+                            <p>Click on another day or modify your search</p>
+                        </div>
                     {% endfor %}
             {% endfor %}
+            <hr>
             </div>
         </section>
+
     </main>
 {% endblock %}

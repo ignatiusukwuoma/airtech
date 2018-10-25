@@ -11,6 +11,10 @@ body {
     font: 1em 'Roboto', san-serif;
 }
 
+main {
+    min-height: calc(100vh - 272px);
+}
+
 .pry-color {
     background-color: var(--pry-color);
 }
@@ -68,13 +72,13 @@ section {
     justify-content: space-around;
 }
 
-.book-form, .status-form  {
+.book-form, .status-form, .login-form, .signup-form  {
     padding: 10px 0;
     display: flex;
     flex-direction: column;
 }
 
-.book-form select, .book-form input, .status-form select, .status-form input {
+select, input {
     max-width: 100vw;
     border: 1px solid silver;
     border-radius: 5px;
@@ -86,7 +90,6 @@ section {
 .submit-flight-search {
     border: 0;
     color: white;
-    background: var(--pry-color);
     margin-top: 15px;
 }
 
@@ -155,14 +158,30 @@ section {
     font-size: 0.8em;
 }
 
-.flight-date-info {
-    text-align: center;
-    color: #000;
+.flight-class {
+    width: 150px;
+    height: 150px;
+}
+
+.helptext {
+    font-size: 0.8em;
+    margin: 0 0 20px;
 }
 
 .book-flight-details {
     margin-top: 40px;
 }
+
+.book-flight-flight-header > p {
+    margin-bottom: 30px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.book-flight-flight-header > div > p > span {
+    font-size: 1.5em;
+}
+
 
 /* ------------------ FOOTER --------------*/
 

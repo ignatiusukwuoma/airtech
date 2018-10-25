@@ -15,7 +15,7 @@ def signup(request):
             user = authenticate(request, username=username, password=raw_password)
             if user is not None:
                 login(request, user)
-            return redirect('index')
+            return redirect('profile')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})

@@ -1,5 +1,8 @@
-from django.forms import Form, ImageField
+from django.forms import ModelForm
+from .models import Profile
 
 
-class PassportForm(Form):
-    passport = ImageField(label='Select a file')
+class PassportForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['passport']

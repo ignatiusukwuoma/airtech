@@ -4,9 +4,9 @@
 {% endblock %}
 
 {% block content %}
-    <main>
-        <section class="container">
-            <h6>Use any of the following options to search for your flight</h6>
+    <main class="container">
+    <h6 class="m-3">Use one of the following options to search for your flight</h6>
+        <section class="flight-forms">
             <ul class="nav nav-tabs nav-fill" id="form-switcher" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link" id="status-by-airport-tab" data-toggle="tab" role="tab"
@@ -27,7 +27,8 @@
                     <form action="{% url 'flights:flight_status' %}" method="POST" class="status-form" id="by-airport">
                         {% csrf_token %}
                         {{ flight_status_by_airport }}
-                        <input type="submit" class="btn submit-status-airport" value="Display Flight Status">
+                        <input type="submit" class="btn btn-primary text-light submit-status-airport"
+                               value="Display Flight Status">
                     </form>
                 </div>
                 <div id="status-by-number" class="tab-pane fade show active" role="tabpanel" aria-labelledby="status-by-number-tab">
@@ -35,14 +36,15 @@
                           id="status-by-number">
                         {% csrf_token %}
                         {{ flight_status_by_number }}
-                        <input type="submit" class="btn submit-status-number" value="Display Flight Status">
+                        <input type="submit" class="btn btn-primary text-light submit-status-number"
+                               value="Display Flight Status">
                     </form>
                 </div>
             </div>
         </section>
         <section>
         {% if flights %}
-            <caption>Flight Status Result</caption>
+            <header class="book-flights-header">Flight Status Result</header>
             <div class="table-responsive">
                 <table class="table table-hover table-bordered">
                     <thead>
@@ -68,10 +70,10 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                <p>All times are in West African Time (GMT +1)</p>
+                <p><i class="fas fa-info-circle"></i> All times are in West African Time (GMT +1)</p>
             </div>
         {% else %}
-            <div>
+            <div class="m-4 p-4 text-center">
                 <p>We could not find your flight from the information given. Please try again!</p>
             </div>
         {% endif %}

@@ -46,20 +46,20 @@
                      <form action="{% url 'flights:search_flights' %}" method="POST" class="book-form">
                         {% csrf_token %}
                         {{ search_flights }}
-                         <input type="submit" class="btn submit-flight-search" value="Search Flights">
+                         <input type="submit" class="btn pry-color text-light submit-flight-search" value="Search Flights">
                     </form>
                 </div>
                 <div id="flights" class="tab-pane fade" role="tabpanel" aria-labelledby="flights-tab">
                     <form action="{% url 'flights:flight_status' %}" method="POST" class="status-form" id="by-airport">
                         {% csrf_token %}
                         {{ flight_status_by_airport }}
-                        <input type="submit" class="btn submit-status-airport" value="Display Flight Status">
+                        <input type="submit" class="btn pry-color text-light submit-status-airport" value="Display Flight Status">
                     </form>
                     <span>OR</span>
                     <form action="{% url 'flights:flight_status' %}" method="POST" class="status-form" id="by-number">
                         {% csrf_token %}
                         {{ flight_status_by_number }}
-                        <input type="submit" class="btn submit-status-number" value="Display Flight Status">
+                        <input type="submit" class="btn pry-color text-light submit-status-number" value="Display Flight Status">
                     </form>
                 </div>
             </div>

@@ -6,12 +6,12 @@ application for the company.
 
 ## Installation
 
-1.  Ensure you have Python installed in your system
+1.  Ensure you have Python3 installed in your system. Python 3.5 and above is required to use Django 2.1
 
-2.  If you do not have virtualenv or virtualenvwrapper, install virtualenv which is a tool
-that lets you create an isolated Python environment for your project
+2.  If you do not have virtualenv or virtualenvwrapper setup, install virtualenv which is a tool
+that lets you create an isolated Python environment for your project.
 ```commandline
-pip install virtualenv
+pip3 install virtualenv
 ```
 
 3. Clone this repository from Github
@@ -24,10 +24,10 @@ git clone git@github.com:ignatiusukwuoma/airtech.git
 cd airtech
 ```
 
-5. Create a virtual environment and activate it
+5. Create a virtual environment and activate it. Specify Python3 when creating it.
 
 ```commandline
-virtualenv venv
+virtualenv -p python3 venv
 source venv/bin/activate
 ```
 Replace _venv_ with your desired virtualenv name. 
@@ -38,7 +38,7 @@ inside the virtualenv.
 
 6. Install the required packages
 ```commandline
-pip install requirements.txt 
+pip install -r requirements.txt 
 ```
 
 7. Create a `.env` file in the root directory with the content of the `.env.sample` and edit with your personal details.

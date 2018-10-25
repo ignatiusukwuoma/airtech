@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>{{ title }}'s profile</title>
+{% endblock %}
+
+{% block content %}
+    <main class="container">
+        <header> {{ user.username|title }}'s Details</header>
+        <section>
+            <div>
+                <h4>First Name:</h4>
+                <p>{{ user.first_name|title }}</p>
+            </div>
+            <div>
+                <h4>Last Name:</h4>
+                <p>{{ user.last_name|title }}</p>
+            </div>
+            <div>
+                <h4>Email:</h4>
+                <p>{{ user.email }}</p>
+            </div>
+            <div>
+                <h4>Username:</h4>
+                <p>{{ user.username }}</p>
+            </div>
+        </section>
+        <section>
+            {% if user.profile.passport %}
+            <img src="{{ user.profile.passport.url }}" alt="{{ user.username }}'s passport">
+            <form action="{% url 'delete_passport' %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete Image" />
+            </form>
+            {% endif %}
+            <form action="{% url 'profile' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" class="btn btn-primary btn-block" value="Upload" />
+            </form>
+        </section>
+
+    </main>
+{% endblock %}
