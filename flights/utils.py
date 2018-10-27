@@ -34,7 +34,7 @@ def generate_flight_dates(date_range, flights):
         flights_on_day = []
         cheapest_flight = 0
         for flight in flights:
-            if flight.scheduled.date() == day:
+            if flight.last_update.date() == day:
                 flights_on_day.append(flight)
                 if flight.price_economy < cheapest_flight or cheapest_flight == 0:
                     cheapest_flight = flight.price_economy
@@ -43,3 +43,6 @@ def generate_flight_dates(date_range, flights):
         flight_dates.append(flight_date)
     return flight_dates
 
+
+def add_time(date_time, time_delta):
+    return date_time + time_delta

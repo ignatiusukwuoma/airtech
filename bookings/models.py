@@ -1,16 +1,16 @@
 from django.db.models import Model, ForeignKey, CASCADE, SET_NULL, CharField, DateField, EmailField, OneToOneField,\
     ImageField
-from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .utils import generate_e_ticket, generate_uuid
+from .utils import generate_e_ticket, generate_uuid, phone_regex
 
 
 class Profile(Model):
     user = OneToOneField(User, on_delete=CASCADE)
     passport = ImageField(upload_to='images/')
+    phone = CharField(validators=[phone_regex], max_length=11)
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, created, **kwargs):
@@ -34,7 +34,6 @@ class BookingStatus(Model):
 
 class Booking(Model):
     """A model defining a Booking"""
-    phone_regex = RegexValidator(regex=r'^0\d{10}$', message="Please enter a Nigerian mobile phone number")
 
     e_booking = CharField(max_length=32, unique=True, blank=True, default=generate_uuid)
     user = ForeignKey(User, on_delete=CASCADE, blank=True, null=True)
@@ -42,6 +41,7 @@ class Booking(Model):
     contact_first_name = CharField(max_length=100)
     contact_last_name = CharField(max_length=100)
     contact_email = EmailField(max_length=254)
+    contact_phone = CharField(validators=[phone_regex], max_length=11)
 
 
 class Ticket(Model):

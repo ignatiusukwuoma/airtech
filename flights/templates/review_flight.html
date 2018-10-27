@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+{% load flights_extras %}
+{% block title %}
+<title> {{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <main>
+        <section class="container">
+            <header class="book-flights-header">Review Flight</header>
+        </section>
+        <section class="container-fluid book-flights-status">
+            <div class="container">
+                <section class="row book-flights-status-row">
+                    <div class="col-6 col-md-3 align-middle">
+                        <span>
+                            {{ outbound_flight.departure.iata }}
+                        </span>
+                        <span>
+                            {{ outbound_flight.departure.city }}
+                        </span>
+                        {% if inbound_flight %}
+                            <i class="fas fa-arrows-alt-h"></i>
+                        {% else %}
+                            <i class="fas fa-arrow-circle-right"></i>
+                        {% endif %}
+                        <span>
+                            {{ outbound_flight.destination.iata }}
+                        </span>
+                        <span>
+                            {{ outbound_flight.destination.city }}
+                        </span>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <span>
+                        {{ outbound_flight.last_update|date:"D, d M Y" }}
+                        {% if inbound_flight %}
+                            - {{ inbound_flight.last_update|date:"D, d M Y" }}
+                        {% endif %}
+                        </span>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <span>
+                        {{ passengers.adults }} Adult{{ passengers.adults|pluralize }}
+                        {% if passengers.children %}
+                            , {{ passengers.children }} Child{{ passengers.children|pluralize:"ren" }}
+                        {% endif %}
+                        {% if passengers.infants %}
+                            , {{ passengers.infants }} Infants{{ passengers.infants|pluralize }}
+                        {% endif %}
+                        </span>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <button type="button" class="btn pry-color">Modify Search</button>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+{# OUTBOUND FLIGHT #}
+        <section class="container book-flight-details">
+            <header><i class="far fa-arrow-alt-circle-left"></i> Outbound Flight</header>
+            <h2 class="flight-location">
+                {{ outbound_flight.departure.city }}
+                <i class="fas fa-arrow-right"></i>
+                {{ outbound_flight.destination.city }}
+            </h2>
+        </section>
+        <section class="container">
+            <hr>
+            <div class="row">
+                <div class="col-sm-3 book-flight-flight-header">
+                    <p class="text-center">Departure</p>
+                    <div>
+                        <p>
+                            <span class="font-weight-bold">{{ outbound_flight.last_update|date:"H:i" }}</span>
+                            <span>{{ outbound_flight.departure.iata }}</span>
+                        </p>
+                        <p>{{ outbound_flight.departure.airport }}
+                            {{ outbound_flight.departure.city }}, {{ outbound_flight.departure.country }}
+                        </p>
+                        <p>{{ outbound_flight.flight_number }}, {{ outbound_flight.aircraft }}</p>
+                        <p>Operated by: Airtech Airways</p>
+                    </div>
+                </div>
+                <span class="d-flex flex-column align-items-center col-sm-2 align-self-center">
+                    <i class="fas fa-clock mb-2"></i>
+                    {{ outbound_flight.flight_duration|duration }}
+                </span>
+                <div class="col-sm-3 book-flight-flight-header">
+                    <p class="text-center">Arrival</p>
+                    <div>
+                        <p>
+                            <span class="font-weight-bold">{{ outbound_flight.arrival|date:"H:i" }}</span>
+                            <span>{{ outbound_flight.destination.iata }}</span>
+                        </p>
+                        <p>{{ outbound_flight.destination.airport }}
+                            {{ outbound_flight.destination.city }}, {{ outbound_flight.destination.country }}
+                        </p>
+                        <p>{{ outbound_flight.flight_number }}, {{ outbound_flight.aircraft }}</p>
+                        <p>Operated by: Airtech Airways</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 book-flight-flight-header">
+                    <p class="text-center">Total Price</p>
+                    <div class="d-flex flex-column align-items-center justify-content-around p-2 flight-price">
+                        {% if outbound_class == 'economy' %}
+                            <p class="mb-0">{{ outbound_flight.price_economy|floatformat:"0" }}</p>
+                        {% else %}
+                            <p class="mb-0">{{ outbound_flight.price_business|floatformat:"0" }}</p>
+                        {% endif %}
+                        <p>NGN</p>
+                        <p>{{ outbound_class|title }}</p>
+                        <p>Baggage Allowance -
+                            {% if outbound_class == 'economy' %}
+                                25kg
+                            {% else %}
+                                45kg
+                            {% endif %}
+                            Included
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </section>
+
+    {# INBOUND FLIGHT #}
+    {% if inbound_flight %}
+        <section class="container book-flight-details">
+            <header><i class="far fa-arrow-alt-circle-right"></i> Inbound Flight</header>
+            <h2 class="flight-location">
+                {{ inbound_flight.departure.city }}
+                <i class="fas fa-arrow-right"></i>
+                {{ inbound_flight.destination.city }}
+            </h2>
+        </section>
+        <section class="container">
+            <hr>
+            <div class="row">
+                <div class="col-sm-3 book-flight-flight-header">
+                    <p class="text-center">Departure</p>
+                    <div>
+                        <p>
+                            <span class="font-weight-bold">{{ inbound_flight.last_update|date:"H:i" }}</span>
+                            <span>{{ inbound_flight.departure.iata }}</span>
+                        </p>
+                        <p>{{ inbound_flight.departure.airport }}
+                            {{ inbound_flight.departure.city }}, {{ inbound_flight.departure.country }}
+                        </p>
+                        <p>{{ inbound_flight.flight_number }}, {{ inbound_flight.aircraft }}</p>
+                        <p>Operated by: Airtech Airways</p>
+                    </div>
+                </div>
+                <span class="d-flex flex-column align-items-center col-sm-2 align-self-center">
+                    <i class="fas fa-clock mb-2"></i>
+                    {{ inbound_flight.flight_duration|duration }}
+                </span>
+                <div class="col-sm-3 book-flight-flight-header">
+                    <p class="text-center">Arrival</p>
+                    <div>
+                        <p>
+                            <span class="font-weight-bold">{{ inbound_flight.arrival|date:"H:i" }}</span>
+                            <span>{{ inbound_flight.destination.iata }}</span>
+                        </p>
+                        <p>{{ inbound_flight.destination.airport }}
+                            {{ inbound_flight.destination.city }}, {{ inbound_flight.destination.country }}
+                        </p>
+                        <p>{{ inbound_flight.flight_number }}, {{ inbound_flight.aircraft }}</p>
+                        <p>Operated by: Airtech Airways</p>
+                    </div>
+                </div>
+                <div class="col-sm-4 book-flight-flight-header">
+                    <p class="text-center">Total Price</p>
+                    <div class="d-flex flex-column align-items-center justify-content-around p-2 flight-price">
+                        {% if inbound_class == 'economy' %}
+                            <p class="mb-0">{{ inbound_flight.price_economy|floatformat:"0" }}</p>
+                        {% else %}
+                            <p class="mb-0">{{ inbound_flight.price_business|floatformat:"0" }}</p>
+                        {% endif %}
+                        <p>NGN</p>
+                        <p>{{ inbound_class|title }}</p>
+                        <p>Baggage Allowance -
+                            {% if inbound_class == 'economy' %}
+                                25kg
+                            {% else %}
+                                45kg
+                            {% endif %}
+                            Included
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </section>
+    {% endif %}
+    <section class="total-price d-flex">
+        <div class="col-12 col-sm-3 col-md-6"></div>
+        <div class="col-12 col-sm-3 col-md-6 d-flex justify-content-around">
+            <div>
+                <h4 class="mb-0">Total trip price</h4>
+                <p>(
+                    {{ passengers.adults }} Adult{{ passengers.adults|pluralize }}
+                    {% if passengers.children %}
+                        , {{ passengers.children }} Child{{ passengers.children|pluralize:"ren" }}
+                    {% endif %}
+                    {% if passengers.infants %}
+                        , {{ passengers.infants }} Infants{{ passengers.infants|pluralize }}
+                    {% endif %}
+                    )
+                </p>
+            </div>
+            <div class="flight-price">
+                <p>{{ total_price|floatformat:"0" }} NGN</p>
+            </div>
+        </div>
+
+    </section>
+    <section class="container d-flex justify-content-end">
+        <input type="submit" class="btn pry-color text-light" id="submit-flights" value="Continue">
+    </section>
+    </main>
+{% endblock %}

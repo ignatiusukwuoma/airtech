@@ -182,6 +182,19 @@ select, input {
     font-size: 1.5em;
 }
 
+/* ---------------- FLIGHT PRICE --------------*/
+
+.flight-price p:first-child {
+    font-size: 2em;
+    font-weight: 600;
+    font-family: "Montserrat", sans-serif;
+    color: var(--pry-color);
+}
+
+.flight-price p:nth-child(2) {
+    color: var(--pry-color);
+}
+
 
 /* ------------------ FOOTER --------------*/
 

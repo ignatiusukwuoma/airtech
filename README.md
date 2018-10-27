@@ -6,7 +6,7 @@ application for the company.
 
 ## Installation
 
-1.  Ensure you have Python3 installed in your system. Python 3.5 and above is required to use Django 2.1
+1.  Ensure you have Python3 installed in your system. Python 3.6 and above is required.
 
 2.  If you do not have virtualenv or virtualenvwrapper setup, install virtualenv which is a tool
 that lets you create an isolated Python environment for your project. 

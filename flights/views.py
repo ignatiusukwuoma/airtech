@@ -1,5 +1,8 @@
+import json
 from django.contrib.auth import login, authenticate
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 from .forms import SearchFlights, FlightStatusByAirport, FlightStatusByNumber, SignUpForm
 from .models import Flight
 from .utils import flight_date_range, generate_flight_dates
@@ -37,11 +40,16 @@ def flights(request):
         form = SearchFlights(request.POST)
         if form.is_valid():
             search = form.cleaned_data
+            request.session['passengers'] = {
+                'adults': search['adults'],
+                'children': search['children'],
+                'infants': search['infants']
+            }
             departure_date_range = flight_date_range(search['departure_date'])
             departure_results = list(Flight.objects.filter(
                 departure=search['from_location'],
                 destination=search['to_location'],
-                scheduled__date__range=departure_date_range))
+                last_update__date__range=departure_date_range))
             departure_flights = generate_flight_dates(departure_date_range, departure_results)
             return_flights = None
             if search['returning_date']:
@@ -49,7 +57,7 @@ def flights(request):
                 return_results = list(Flight.objects.filter(
                     departure=search['to_location'],
                     destination=search['from_location'],
-                    scheduled__date__range=return_date_range))
+                    last_update__date__range=return_date_range))
                 return_flights = generate_flight_dates(return_date_range, return_results)
 
             return render(request, 'flights.html',
@@ -74,7 +82,7 @@ def flight_status(request):
             flight = Flight.objects.filter(
                 departure=query['from_location'],
                 destination=query['to_location'],
-                scheduled__date=query['departure_date'])
+                last_update__date=query['departure_date'])
 
         if status_by_number:
             status_by_airport = FlightStatusByAirport()
@@ -88,5 +96,47 @@ def flight_status(request):
                        'flight_status_by_airport': status_by_airport})
     return render(request, 'flight_status.html', {'title': 'Check flight status'})
 
+
+@csrf_exempt
+def select_flight(request):
+    if request.method == 'POST':
+        flight_str = request.body.decode(encoding='UTF-8')
+        json_obj = json.loads(flight_str)
+        request.session['flights'] = json_obj
+        response = json.dumps({'data': 'success'})
+        return HttpResponse(content=response, content_type='application/json', status=200)
+
+
+def review_flight(request):
+    selected_flights = request.session['flights']
+    passengers = request.session['passengers']
+    total_passengers = passengers['adults'] + (passengers['children'] or 0) + (passengers['infants'] or 0)
+    outbound_flight_id = int(selected_flights['outbound']['flightId'])
+    outbound_flight = Flight.objects.get(id=outbound_flight_id)
+    outbound_class = selected_flights['outbound']['flightClass']
+    outbound_flight_price = outbound_flight.price_economy * total_passengers if outbound_class == 'economy' \
+        else outbound_flight.price_business * total_passengers
+    inbound_flight = None
+    inbound_class = None
+    inbound_flight_price = 0
+
+    if selected_flights['inbound']:
+        inbound_flight_id = int(selected_flights['inbound']['flightId'])
+        inbound_flight = Flight.objects.get(id=inbound_flight_id)
+        inbound_class = selected_flights['inbound']['flightClass']
+        inbound_flight_price = inbound_flight.price_economy * total_passengers if inbound_class == 'economy' \
+            else inbound_flight.price_business * total_passengers
+
+    total_price = outbound_flight_price + inbound_flight_price
+
+    return render(request, 'review_flight.html',
+                  {'title': 'Review Flight',
+                   'passengers': passengers,
+                   'total_price': total_price,
+                   'outbound_flight': outbound_flight,
+                   'outbound_class': outbound_class,
+                   'inbound_flight': inbound_flight,
+                   'inbound_class': inbound_class})
+
 # import pdb;
- # pdb.set_trace()
+#  pdb.set_trace()

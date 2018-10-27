@@ -35,12 +35,11 @@
                     <div class="trip-mode-switch">
                         <div class="form-check">
                             <label class="trip-mode" for="round-trip">Round Trip</label>
-                            <input class="trip-mode-label" type="radio" name="round-trip" id="round-trip"
-                                   value="round-trip" checked>
+                            <input class="trip-mode-label" type="radio" name="round_trip" id="round-trip" checked>
                         </div>
                         <div class="form-check">
                             <label class="trip-mode" for="one-way">One way</label>
-                            <input class="trip-mode-label" type="radio" name="one-way" id="one-way" value="one-way">
+                            <input class="trip-mode-label" type="radio" name="one_way" id="one-way">
                         </div>
                     </div>
                      <form action="{% url 'flights:search_flights' %}" method="POST" class="book-form">
