@@ -1,8 +1,37 @@
 {% extends "base.html" %}
 {% block title %}
-    <title>Booking</title>
+    <title>{{ title }}</title>
 {% endblock %}
 
 {% block content %}
-    <h1>This is the Bookings Page</h1>
+    <main class="container">
+        <section>
+            <header>
+                <h4>Passenger Details</h4>
+                <div>
+                    <p>Your Trip Summary</p>
+                    <p class="display-4">N{{ price|floatformat:"0" }}</p>
+                </div>
+            </header>
+            <hr>
+        </section>
+        {% if not user.is_authenticated %}
+            <section>
+                <p>Pre-filled details? Log in to retrieve your personal details from your profile </p>
+                <a class="btn btn-success" href="{% url 'login' %}">Login</a>
+            </section>
+        {% endif %}
+        <section>
+            <header>{{ passenger|capfirst }}</header>
+            <p>
+                Please make sure you enter the names of passengers as shown on passports.
+                This will avoid problems at the airport. Name changes are not permitted once booking is finalised
+            </p>
+            <form action="{% url 'booking' %}" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" class="btn" value="Continue">
+            </form>
+        </section>
+    </main>
 {% endblock %}

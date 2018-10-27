@@ -36,8 +36,7 @@ $(document).ready(function() {
     });
 
     $('#submit-flights').click(function(){
-        var tripMode = $('.trip-mode-label:checked').attr('name');
-        var data = {'trip_mode': tripMode, 'outbound': outbound, 'inbound': inbound};
+        var data = {'outbound': outbound, 'inbound': inbound};
         console.log('Flight', data);
         if (outbound) {
             $.ajax({

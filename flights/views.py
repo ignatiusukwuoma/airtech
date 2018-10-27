@@ -41,9 +41,9 @@ def flights(request):
         if form.is_valid():
             search = form.cleaned_data
             request.session['passengers'] = {
-                'adults': search['adults'],
-                'children': search['children'],
-                'infants': search['infants']
+                'adult': search['adults'],
+                'child': search['children'],
+                'infant': search['infants']
             }
             departure_date_range = flight_date_range(search['departure_date'])
             departure_results = list(Flight.objects.filter(
@@ -110,7 +110,7 @@ def select_flight(request):
 def review_flight(request):
     selected_flights = request.session['flights']
     passengers = request.session['passengers']
-    total_passengers = passengers['adults'] + (passengers['children'] or 0) + (passengers['infants'] or 0)
+    total_passengers = passengers['adult'] + (passengers['child'] or 0) + (passengers['infant'] or 0)
     outbound_flight_id = int(selected_flights['outbound']['flightId'])
     outbound_flight = Flight.objects.get(id=outbound_flight_id)
     outbound_class = selected_flights['outbound']['flightClass']
@@ -128,7 +128,7 @@ def review_flight(request):
             else inbound_flight.price_business * total_passengers
 
     total_price = outbound_flight_price + inbound_flight_price
-
+    request.session['price'] = float(total_price)
     return render(request, 'review_flight.html',
                   {'title': 'Review Flight',
                    'passengers': passengers,
@@ -138,5 +138,4 @@ def review_flight(request):
                    'inbound_flight': inbound_flight,
                    'inbound_class': inbound_class})
 
-# import pdb;
-#  pdb.set_trace()
+# import pdb; pdb.set_trace()

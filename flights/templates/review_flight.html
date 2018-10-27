@@ -60,11 +60,14 @@
 {# OUTBOUND FLIGHT #}
         <section class="container book-flight-details">
             <header><i class="far fa-arrow-alt-circle-left"></i> Outbound Flight</header>
-            <h2 class="flight-location">
-                {{ outbound_flight.departure.city }}
-                <i class="fas fa-arrow-right"></i>
-                {{ outbound_flight.destination.city }}
-            </h2>
+            <div class="d-flex">
+                <h2 class="flight-location">
+                    {{ outbound_flight.departure.city }}
+                    <i class="fas fa-arrow-right"></i>
+                    {{ outbound_flight.destination.city }}
+                </h2>
+                <p class="align-self-end ml-2">{{ outbound_flight.last_update|date:"D, d M Y" }}</p>
+            </div>
         </section>
         <section class="container">
             <hr>
@@ -205,7 +208,7 @@
                         , {{ passengers.children }} Child{{ passengers.children|pluralize:"ren" }}
                     {% endif %}
                     {% if passengers.infants %}
-                        , {{ passengers.infants }} Infants{{ passengers.infants|pluralize }}
+                        , {{ passengers.infants }} Infant{{ passengers.infants|pluralize }}
                     {% endif %}
                     )
                 </p>
@@ -214,10 +217,9 @@
                 <p>{{ total_price|floatformat:"0" }} NGN</p>
             </div>
         </div>
-
     </section>
     <section class="container d-flex justify-content-end">
-        <input type="submit" class="btn pry-color text-light" id="submit-flights" value="Continue">
+        <a href="{% url 'booking' %}" type="submit" class="btn btn-primary">Continue</a>
     </section>
     </main>
 {% endblock %}

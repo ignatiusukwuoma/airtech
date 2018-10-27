@@ -27,9 +27,9 @@ class SearchFlights(Form):
     returning_date = MyDateField(label='Returning',
                                  required=False,
                                  widget=MyDateInput(attrs={'min': tomorrow}))
-    adults = IntegerField(max_value=5)
-    children = IntegerField(max_value=5, required=False)
-    infants = IntegerField(max_value=5, required=False)
+    adults = IntegerField(min_value=0, max_value=5)
+    children = IntegerField(min_value=0, max_value=5, required=False)
+    infants = IntegerField(min_value=0, max_value=5, required=False)
 
 
 class FlightStatusByAirport(Form):

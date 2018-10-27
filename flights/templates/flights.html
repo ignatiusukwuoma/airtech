@@ -41,12 +41,12 @@
                     </div>
                     <div class="col-6 col-md-2">
                         <span>
-                        {{ search.adults }} Adults
+                        {{ search.adults }} Adult{{ passengers.adults|pluralize }}
                         {% if search.children %}
-                            {{ search.children }} Children
+                            , {{ search.children }} Child{{ passengers.children|pluralize:"ren" }}
                         {% endif %}
                         {% if search.infants %}
-                            {{ search.infants }} Infants
+                            , {{ search.infants }} Infant{{ passengers.infants|pluralize }}
                         {% endif %}
                         </span>
                     </div>
@@ -236,7 +236,7 @@
                                     <div class="d-flex flex-column align-items-center justify-content-around p-2
                                         flight-class bg-primary text-white">
                                         <p>Economy</p>
-                                        <input type="radio" class="inbound" name="business" id="{{ flight.id }}">
+                                        <input type="radio" class="inbound" name="economy" id="{{ flight.id }}">
                                         <p>{{ flight.price_economy.normalize }}</p>
                                     </div>
                                     <div class="d-flex flex-column align-items-center justify-content-around p-2

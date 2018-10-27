@@ -1,4 +1,5 @@
-from django.db.models import Model, CharField, DateTimeField, DecimalField, IntegerField, DurationField, ForeignKey, SET_NULL
+from django.db.models import Model, CharField, DateTimeField, DecimalField, PositiveSmallIntegerField, DurationField, \
+    ForeignKey, SET_NULL
 from .utils import get_flight_duration, add_time
 
 
@@ -21,7 +22,7 @@ class Aircraft(Model):
 
     manufacturer = CharField(max_length=50)
     model = CharField(max_length=50)
-    capacity = IntegerField(default=500)
+    capacity = PositiveSmallIntegerField(default=500)
 
     def __str__(self):
         return f"{self.manufacturer} {self.model}"

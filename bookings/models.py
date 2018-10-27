@@ -1,5 +1,5 @@
-from django.db.models import Model, ForeignKey, CASCADE, SET_NULL, CharField, DateField, EmailField, OneToOneField,\
-    ImageField
+from django.db.models import Model, ForeignKey, CASCADE, CharField, DateField, EmailField, OneToOneField,\
+    ImageField, PositiveSmallIntegerField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -20,16 +20,11 @@ class Profile(Model):
             instance.profile.save()
 
 
-class Trip(Model):
-    """A model defining a Trip"""
-
-    passenger_first_name = CharField(max_length=100)
-    passenger_last_name = CharField(max_length=100)
-    passenger_dob = DateField()
-
-
 class BookingStatus(Model):
     name = CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
 
 
 class Booking(Model):
@@ -43,23 +38,42 @@ class Booking(Model):
     contact_email = EmailField(max_length=254)
     contact_phone = CharField(validators=[phone_regex], max_length=11)
 
+    def __str__(self):
+        return f"Booking {self.id} - {self.booking_status}"
+
+
+class Trip(Model):
+    """A model defining a Trip"""
+
+    passenger_first_name = CharField(max_length=100)
+    passenger_last_name = CharField(max_length=100)
+    passenger_age = PositiveSmallIntegerField()
+    booking = ForeignKey(Booking, on_delete=CASCADE)
+
+    def __str__(self):
+        return f"Trip {self.id}"
+
+
+class TicketClass(Model):
+    """A model defining a Ticket class"""
+    title = CharField(max_length=30)
+
+    def __str__(self):
+        return self.title
+
 
 class Ticket(Model):
     """A model defining a Ticket"""
 
-    ECONOMY = 'E'
-    BUSINESS = 'B'
-    CLASS = (
-        (ECONOMY, 'Economy'),
-        (BUSINESS, 'Business')
-    )
-
     flight = ForeignKey('flights.Flight', on_delete=CASCADE)
     trip = ForeignKey(Trip, on_delete=CASCADE)
     booking = ForeignKey(Booking, on_delete=CASCADE)
-    ticket_class = CharField(max_length=1, choices=CLASS, default=ECONOMY)
+    ticket_class = ForeignKey(TicketClass, on_delete=CASCADE)
     e_ticket = CharField(max_length=10, unique=True, blank=True)
     issue_date = DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.ticket_class} ticket for {self.flight}"
 
     def save(self, *args, **kwargs):
         while True:
