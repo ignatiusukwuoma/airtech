@@ -97,7 +97,6 @@ def flight_status(request):
     return render(request, 'flight_status.html', {'title': 'Check flight status'})
 
 
-@csrf_exempt
 def select_flight(request):
     if request.method == 'POST':
         flight_str = request.body.decode(encoding='UTF-8')

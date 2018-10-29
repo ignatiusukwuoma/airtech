@@ -79,7 +79,6 @@ def delete_passport(request):
     return redirect('profile')
 
 
-@csrf_exempt
 def summary(request):
     if request.method == 'POST':
         data = request.body.decode(encoding='UTF-8')
