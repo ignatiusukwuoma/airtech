@@ -1,13 +1,14 @@
 import json
 from multiprocessing.dummy import Pool as ThreadPool
-from django.shortcuts import render, redirect
+
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+
 from flights.models import Flight
-from .forms import PassportForm, PassengerForm, ContactForm, PaymentForm
-from .utils import get_passenger_list, mail_tickets
 from .models import Booking, Trip, Ticket
+from .utils import get_passenger_list, mail_tickets, CONTACT_ID, CONTACT_DETAILS
+from .forms import PassportForm, PassengerForm, ContactForm, PaymentForm
 
 
 def booking(request):
@@ -16,14 +17,14 @@ def booking(request):
         passengers = request.session['passengers']
         list_of_passengers = get_passenger_list(passengers)
 
-        request.session['passenger_list'] = list_of_passengers
-        request.session['passenger_details'] = {}
         current_passenger = 'Adult 1'
         request.session['current_passenger'] = current_passenger
+        request.session['passenger_list'] = list_of_passengers
+        request.session['passenger_details'] = {}
 
     if request.method == 'POST':
         current_passenger = request.session['current_passenger']
-        form = ContactForm(request.POST) if current_passenger == 'Contact details' else PassengerForm(request.POST)
+        form = ContactForm(request.POST) if current_passenger == CONTACT_DETAILS else PassengerForm(request.POST)
 
         if form.is_valid():
             list_of_passengers = request.session.pop('passenger_list')
@@ -38,12 +39,13 @@ def booking(request):
                 request.session['passenger_list'] = list_of_passengers
                 request.session['current_passenger'] = current_passenger
 
-                form = ContactForm() if passenger_key == 'contact' else PassengerForm()
-                return render(request, 'booking.html',
+                form = ContactForm() if passenger_key == CONTACT_ID else PassengerForm()
+                return render(request,
+                              'booking.html',
                               {'title': 'Booking',
                                'price': request.session['price'],
-                               'form': form,
-                               'passenger': current_passenger})
+                               'passenger': current_passenger,
+                               'form': form})
             else:
                 try:
                     del request.session['current_passenger']
@@ -51,11 +53,12 @@ def booking(request):
                     pass
                 return redirect('summary')
 
-    return render(request, 'booking.html',
+    return render(request,
+                  'booking.html',
                   {'title': 'Booking',
-                   'form': form,
                    'price': request.session['price'],
-                   'passenger': current_passenger})
+                   'passenger': current_passenger,
+                   'form': form})
 
 
 @login_required
@@ -100,7 +103,8 @@ def summary(request):
         inbound_flight = Flight.objects.get(id=inbound_flight_id)
         inbound_class = flights['inbound']['flightClass']
 
-    return render(request, 'summary.html',
+    return render(request,
+                  'summary.html',
                   {'title': 'summary',
                    'passengers': passengers,
                    'passenger_details': passenger_details,
@@ -132,6 +136,7 @@ def payment(request):
                         booking_status_id=booking_status
             )
             book_flight.save()
+
             booking_list = []
             for passenger, details in passenger_details.items():
                 if passenger != 'contact':
@@ -178,7 +183,8 @@ def payment(request):
 
     else:
         form = PaymentForm()
-    return render(request, 'payment.html',
+    return render(request,
+                  'payment.html',
                   {'title': 'Payment',
                    'form': form,
                    'price': request.session['price'],
@@ -187,5 +193,3 @@ def payment(request):
 
 def success(request):
     return render(request, 'success.html', {'title': 'success'})
-
-#import pdb; pdb.set_trace()

@@ -2,6 +2,8 @@ import uuid
 from django.core.validators import RegexValidator
 from django.core.mail import send_mail
 
+CONTACT_ID = 'contact'
+CONTACT_DETAILS = 'Contact details'
 phone_regex = RegexValidator(regex=r'^0\d{10}$', message="Please enter a Nigerian mobile phone number")
 
 
@@ -14,7 +16,7 @@ def generate_uuid():
 
 
 def get_passenger_list(passengers):
-    contact = ('Contact details', 'contact')
+    contact = (CONTACT_DETAILS, CONTACT_ID)
     if passengers:
         passenger_list = [(f"{k} {x}", f"{k}{x}") for k, v in passengers.items() if v for x in range(1, v + 1)]
         passenger_list.append(contact)
