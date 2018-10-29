@@ -42,6 +42,7 @@ pip3 install -r requirements.txt
 ```
 
 7. Create a `.env` file in the root directory with the content of the `.env.sample` and edit with your personal details.
+I have used PostgreSQL for this project but you can use any database that Django supports.
 
 ## Starting the app
 

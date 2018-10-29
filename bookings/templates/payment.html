@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <main class="container">
+        <section>
+            <header class="book-flights-header">Payment</header>
+        </section>
+        <section>
+            <header>Purchase Conditions</header>
+            <ul>
+                <li>Fares are not guaranteed until full payment is received and tickets are issued.</li>
+                <li>An additional administrative/service fee for rebooking/cancellation may apply.</li>
+            </ul>
+        </section>
+        {% if pay_schedule == 'pay-later' %}
+        <section>
+            <header>Book Now Pay Later</header>
+            <p>You can hold your booking for up to 72 hours.</p>
+            <p>To confirm your booking, you must complete the full payment within the allocated time
+                using one of the following options:
+            </p>
+            <p>Log into the 'Manage Booking' option on www.flyairtech.com</p>
+            <br>
+            <p>OR</p>
+            <br>
+            <p>Visit any of our offices Nationwide</p>
+            <div>
+                <p>You will pay a fixed amount of <span>N5000</span> to hold your booking</p>
+                <form action="{% url 'payment' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Pay N5000">
+                </form>
+            </div>
+        </section>
+        {% endif %}
+        {% if pay_schedule == 'pay-now' %}
+            <section>
+            <header> Get Your E-ticket</header>
+            <p>When you pay now, you get your e-ticket immediately</p>
+            <div>
+                <p>You will pay a total of <span>{{ price|floatformat:"0" }}</span> to get your ticket(s)</p>
+                <form action="{% url 'payment' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Pay N{{ price|floatformat:"0" }}">
+                </form>
+            </div>
+        </section>
+        {% endif %}
+    </main>
+{% endblock %}

@@ -41,12 +41,12 @@
                     </div>
                     <div class="col-6 col-md-2">
                         <span>
-                        {{ passengers.adults }} Adult{{ passengers.adults|pluralize }}
-                        {% if passengers.children %}
-                            , {{ passengers.children }} Child{{ passengers.children|pluralize:"ren" }}
+                        {{ passengers.adult }} Adult{{ passengers.adult|pluralize }}
+                        {% if passengers.child %}
+                            , {{ passengers.child }} Child{{ passengers.child|pluralize:"ren" }}
                         {% endif %}
-                        {% if passengers.infants %}
-                            , {{ passengers.infants }} Infants{{ passengers.infants|pluralize }}
+                        {% if passengers.infant %}
+                            , {{ passengers.infant }} Infant{{ passengers.infant|pluralize }}
                         {% endif %}
                         </span>
                     </div>
@@ -128,15 +128,18 @@
             <hr>
         </section>
 
-    {# INBOUND FLIGHT #}
+{# INBOUND FLIGHT #}
     {% if inbound_flight %}
         <section class="container book-flight-details">
             <header><i class="far fa-arrow-alt-circle-right"></i> Inbound Flight</header>
-            <h2 class="flight-location">
-                {{ inbound_flight.departure.city }}
-                <i class="fas fa-arrow-right"></i>
-                {{ inbound_flight.destination.city }}
-            </h2>
+            <div class="d-flex">
+                <h2 class="flight-location">
+                    {{ inbound_flight.departure.city }}
+                    <i class="fas fa-arrow-right"></i>
+                    {{ inbound_flight.destination.city }}
+                </h2>
+                <p class="align-self-end ml-2">{{ inbound_flight.last_update|date:"D, d M Y" }}</p>
+            </div>
         </section>
         <section class="container">
             <hr>
@@ -203,12 +206,12 @@
             <div>
                 <h4 class="mb-0">Total trip price</h4>
                 <p>(
-                    {{ passengers.adults }} Adult{{ passengers.adults|pluralize }}
-                    {% if passengers.children %}
-                        , {{ passengers.children }} Child{{ passengers.children|pluralize:"ren" }}
+                    {{ passengers.adult }} Adult{{ passengers.adult|pluralize }}
+                    {% if passengers.child %}
+                        , {{ passengers.child }} Child{{ passengers.child|pluralize:"ren" }}
                     {% endif %}
-                    {% if passengers.infants %}
-                        , {{ passengers.infants }} Infant{{ passengers.infants|pluralize }}
+                    {% if passengers.infant %}
+                        , {{ passengers.infant }} Infant{{ passengers.infant|pluralize }}
                     {% endif %}
                     )
                 </p>
@@ -219,7 +222,7 @@
         </div>
     </section>
     <section class="container d-flex justify-content-end">
-        <a href="{% url 'booking' %}" type="submit" class="btn btn-primary">Continue</a>
+        <a href="{% url 'booking' %}" class="btn btn-primary">Continue</a>
     </section>
     </main>
 {% endblock %}

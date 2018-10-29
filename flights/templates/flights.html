@@ -41,12 +41,12 @@
                     </div>
                     <div class="col-6 col-md-2">
                         <span>
-                        {{ search.adults }} Adult{{ passengers.adults|pluralize }}
+                        {{ search.adults }} Adult{{ search.adults|pluralize }}
                         {% if search.children %}
-                            , {{ search.children }} Child{{ passengers.children|pluralize:"ren" }}
+                            , {{ search.children }} Child{{ search.children|pluralize:"ren" }}
                         {% endif %}
                         {% if search.infants %}
-                            , {{ search.infants }} Infant{{ passengers.infants|pluralize }}
+                            , {{ search.infants }} Infant{{ search.infants|pluralize }}
                         {% endif %}
                         </span>
                     </div>

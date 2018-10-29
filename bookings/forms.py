@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Form, CharField, EmailField, IntegerField
+from django.forms import ModelForm, Form, CharField, EmailField, IntegerField, ChoiceField, RadioSelect
 from .models import Profile
 from .utils import phone_regex
 
@@ -21,3 +21,14 @@ class ContactForm(Form):
     email = EmailField(max_length=254)
     phone = CharField(validators=[phone_regex], max_length=11)
 
+
+class PayScheduleForm(Form):
+    CHOICES = (('now', 'Pay Now',), ('later', 'Pay Later',))
+
+    pay_choice = ChoiceField(widget=RadioSelect, choices=CHOICES)
+
+    pay_choice.widget.attrs.update({'class': 'pay-choice'})
+
+
+class PaymentForm(Form):
+    card_number = CharField(max_length=30)

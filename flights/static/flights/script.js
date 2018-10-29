@@ -33,12 +33,14 @@ $(document).ready(function() {
             flightClass: selectedClass,
             flightId: selectedFlight
         };
+
     });
 
     $('#submit-flights').click(function(){
         var data = {'outbound': outbound, 'inbound': inbound};
-        console.log('Flight', data);
-        if (outbound) {
+        var checkRoundTrip = $('.inbound').is(':checked') || ($('.inbound').not(':checked') && inbound === {});
+
+        if ($('.outbound').is(':checked') && checkRoundTrip ) {
             $.ajax({
                 type: 'POST',
                 url: '/flights/select/',
@@ -61,7 +63,48 @@ $(document).ready(function() {
                 }
             })
         } else {
-            alert('Please select a flight')
+            alert('Please select your flight')
         }
     });
+
+    $('.pay-schedule').change(function(){
+        $('.pay-schedule').not(this).prop('checked', false);
+        var paySoonNotification = $('#pay-soon');
+        if ($(this).attr('id') === 'pay-now') {
+            paySoonNotification.hide();
+        } else {
+            paySoonNotification.show();
+        }
+    });
+
+    $('#confirm-pay-schedule').click(function(){
+        var paySchedule = $('.pay-schedule:checked').attr('id');
+        var data = {'pay_schedule': paySchedule};
+        if ($('#agree-to-terms').is(':checked')){
+            $.ajax({
+                type: 'POST',
+                url: '/bookings/summary/',
+                contentType: "application/json",
+                data: JSON.stringify(data),
+
+                success: function (data, status) {
+                    if (status === 'success') {
+                        console.log('Successful', data);
+                        location.href = '/bookings/payment'
+                    } else {
+                        alert('Something went wrong')
+                    }
+                },
+
+                error: function (error) {
+                    if (error) {
+                        console.log('Error', error);
+                    }
+                }
+            })
+        } else {
+            alert('Please click the checkbox to accept our terms and condition')
+        }
+    });
+
 });

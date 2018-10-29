@@ -32,7 +32,7 @@ class Booking(Model):
 
     e_booking = CharField(max_length=32, unique=True, blank=True, default=generate_uuid)
     user = ForeignKey(User, on_delete=CASCADE, blank=True, null=True)
-    booking_status = ForeignKey(BookingStatus, on_delete=CASCADE)
+    booking_status = ForeignKey(BookingStatus, on_delete=CASCADE, default=1)
     contact_first_name = CharField(max_length=100)
     contact_last_name = CharField(max_length=100)
     contact_email = EmailField(max_length=254)
@@ -65,10 +65,17 @@ class TicketClass(Model):
 class Ticket(Model):
     """A model defining a Ticket"""
 
+    ECONOMY = 'economy'
+    BUSINESS = 'business'
+    CLASS = (
+        (ECONOMY, 'Economy'),
+        (BUSINESS, 'Business')
+    )
+
     flight = ForeignKey('flights.Flight', on_delete=CASCADE)
     trip = ForeignKey(Trip, on_delete=CASCADE)
     booking = ForeignKey(Booking, on_delete=CASCADE)
-    ticket_class = ForeignKey(TicketClass, on_delete=CASCADE)
+    ticket_class = CharField(max_length=10, choices=CLASS)
     e_ticket = CharField(max_length=10, unique=True, blank=True)
     issue_date = DateField(auto_now_add=True)
 

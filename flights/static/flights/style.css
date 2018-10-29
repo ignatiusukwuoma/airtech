@@ -196,6 +196,12 @@ select, input {
 }
 
 
+/* ---------------- SUMMARY --------------*/
+#pay-soon {
+    display: none;
+}
+
+
 /* ------------------ FOOTER --------------*/
 
 footer {

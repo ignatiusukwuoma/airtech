@@ -1,3 +1,4 @@
+import time
 from datetime import timedelta, datetime
 from geopy import distance
 
@@ -7,8 +8,8 @@ def get_flight_duration(departure, destination):
     destination_coordinates = (destination.latitude, destination.longitude)
     travel_distance = distance.distance(departure_coordinates, destination_coordinates).km
     avg_speed = 900
-    time = travel_distance / avg_speed
-    duration = timedelta(hours=time)
+    time_taken = travel_distance / avg_speed
+    duration = timedelta(hours=time_taken)
     return duration
 
 
@@ -25,6 +26,7 @@ def tomorrow():
 
 
 def generate_flight_dates(date_range, flights):
+    start_time = time.time()
     start_date, end_date = date_range
     days = (end_date - start_date).days + 1
     date_list = [start_date + timedelta(days=x) for x in range(0, days)]
@@ -41,6 +43,7 @@ def generate_flight_dates(date_range, flights):
         flight_date['flights'] = flights_on_day
         flight_date['cheapest_flight'] = cheapest_flight
         flight_dates.append(flight_date)
+    print('Done! Time taken: {}'.format(time.time() - start_time))
     return flight_dates
 
 
