@@ -82,23 +82,23 @@ WSGI_APPLICATION = 'fly_airtech.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 # if DEBUG:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASS'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-        'TEST': {
-            'NAME': os.getenv('TEST_DB_NAME')
-        }
-    }
-}
-# else:
-#     DATABASES = {
-#         'default': dj_database_url.config(default='DATABASE_URL')
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': os.getenv('DB_USER'),
+#         'PASSWORD': os.getenv('DB_PASS'),
+#         'HOST': os.getenv('DB_HOST'),
+#         'PORT': os.getenv('DB_PORT'),
+#         'TEST': {
+#             'NAME': os.getenv('TEST_DB_NAME')
+#         }
 #     }
+# }
+# else:
+DATABASES = {
+    'default': dj_database_url.config(default='DATABASE_URL')
+}
 
 
 # Password validation
