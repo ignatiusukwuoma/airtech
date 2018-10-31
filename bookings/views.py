@@ -29,13 +29,11 @@ def booking(request):
         if form.is_valid():
             list_of_passengers = request.session.pop('passenger_list')
             filled_passenger, filled_passenger_key = list_of_passengers.pop(0)
-
             request.session['passenger_details'][filled_passenger_key] = form.cleaned_data
             request.session.modified = True
 
             if list_of_passengers:
                 current_passenger, passenger_key = list_of_passengers[0]
-
                 request.session['passenger_list'] = list_of_passengers
                 request.session['current_passenger'] = current_passenger
 

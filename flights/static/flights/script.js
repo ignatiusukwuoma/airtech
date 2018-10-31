@@ -59,8 +59,7 @@ $(document).ready(function() {
 
     $('#submit-flights').click(function(){
         var data = {'outbound': outbound, 'inbound': inbound};
-        var checkRoundTrip = $('.inbound').is(':checked') || ($('.inbound').not(':checked') && inbound === {});
-
+        var checkRoundTrip = $('.inbound').is(':checked') || ($('.inbound').length && !jQuery.isEmptyObject(inbound));
         if ($('.outbound').is(':checked') && checkRoundTrip ) {
             $.ajax({
                 type: 'POST',

@@ -1,4 +1,4 @@
-import time
+
 from datetime import timedelta, datetime
 from geopy import distance
 

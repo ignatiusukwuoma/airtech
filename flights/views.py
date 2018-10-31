@@ -136,5 +136,3 @@ def review_flight(request):
                    'outbound_class': outbound_class,
                    'inbound_flight': inbound_flight,
                    'inbound_class': inbound_class})
-
-# import pdb; pdb.set_trace()
