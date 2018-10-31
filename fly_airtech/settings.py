@@ -28,8 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# bool(os.environ.get('DEBUG', 0))
+DEBUG = bool(os.environ.get('DEBUG', 0))
 
 ALLOWED_HOSTS = ['test_server', 'localhost']
 
@@ -81,24 +80,24 @@ WSGI_APPLICATION = 'fly_airtech.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# if DEBUG:
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('DB_NAME'),
-#         'USER': os.getenv('DB_USER'),
-#         'PASSWORD': os.getenv('DB_PASS'),
-#         'HOST': os.getenv('DB_HOST'),
-#         'PORT': os.getenv('DB_PORT'),
-#         'TEST': {
-#             'NAME': os.getenv('TEST_DB_NAME')
-#         }
-#     }
-# }
-# else:
-DATABASES = {
-    'default': dj_database_url.config(default='DATABASE_URL')
-}
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASS'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT'),
+            'TEST': {
+                'NAME': os.getenv('TEST_DB_NAME')
+            }
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.config(default='DATABASE_URL')
+    }
 
 
 # Password validation

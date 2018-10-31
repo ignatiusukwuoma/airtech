@@ -46,7 +46,7 @@ class Flight(Model):
     flight_duration = DurationField(blank=True)
     scheduled = DateTimeField()
     last_update = DateTimeField(blank=True)
-    arrival = DateTimeField()
+    arrival = DateTimeField(blank=True)
     flight_status = ForeignKey(FlightStatus, on_delete=SET_NULL, null=True, default=1)
     aircraft = ForeignKey(Aircraft, on_delete=SET_NULL, null=True)
     price_economy = DecimalField(max_digits=9, decimal_places=2)
