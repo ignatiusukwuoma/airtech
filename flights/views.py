@@ -2,7 +2,6 @@ import json
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
 from .forms import SearchFlights, FlightStatusByAirport, FlightStatusByNumber, SignUpForm
 from .models import Flight
 from .utils import flight_date_range, generate_flight_dates
