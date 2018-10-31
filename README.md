@@ -55,3 +55,19 @@ python3 manage.py runserver
 ## Stopping the app
 
 To stop the application at any time, hit `Ctrl (or Cmd) + C`
+
+## Running the tests
+
+The tests are located in the tests.py module of each application. You can run the test for the flights application:
+```commandline
+python3 manage.py test flights
+```
+
+A new database will be created to run your tests and will be destroyed after the test. You can specify the name to be 
+given to this database by specifying a NAME in the DATABASES.default.TEST object in your settings. Default is to 
+prefix the NAME of your development database with test_.
+
+You can also run the tests with Coverage.py
+```commandline
+coverage run --source='.' manage.py test flights
+```

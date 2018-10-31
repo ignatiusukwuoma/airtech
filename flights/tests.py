@@ -148,7 +148,7 @@ class ViewTests(TestCase):
         self.assertEqual(response.context['title'], 'Home')
         self.assertContains(response, 'Book Flight')
 
-    def test_flight_status(self):
+    def test_flight_status_returns_flights(self):
         flight = {"flight_number": "FA110"}
         response = self.client.post(reverse('flights:flight_status'), data=flight)
 
@@ -157,7 +157,7 @@ class ViewTests(TestCase):
         self.assertQuerysetEqual(response.context['flights'], ['<Flight: FA110, Lagos - Abuja>'])
         self.assertTemplateUsed(response, 'flight_status.html')
 
-    def test_flight_search_returns_flights(self):
+    def test_flights_view_handles_flight_search(self):
         booking = {"from_location": 1, "to_location": 2, "departure_date": tomorrow(), "adults": 1}
         
         response = self.client.post(reverse('flights:search_flights'), data=booking)
