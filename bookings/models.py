@@ -1,5 +1,5 @@
 from django.db.models import Model, ForeignKey, CASCADE, CharField, DateField, EmailField, OneToOneField,\
-    ImageField, PositiveSmallIntegerField
+    ImageField, PositiveSmallIntegerField, BooleanField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -78,14 +78,16 @@ class Ticket(Model):
     ticket_class = CharField(max_length=10, choices=CLASS)
     e_ticket = CharField(max_length=10, unique=True, blank=True)
     issue_date = DateField(auto_now_add=True)
+    reminder_sent = BooleanField(default=False)
 
     def __str__(self):
         return f"{self.ticket_class} ticket for {self.flight}"
 
     def save(self, *args, **kwargs):
-        while True:
-            ticket = generate_e_ticket()
-            if not Ticket.objects.filter(e_ticket=ticket).exists():
-                break
-        self.e_ticket = ticket
+        if not self.e_ticket:
+            while True:
+                ticket = generate_e_ticket()
+                if not Ticket.objects.filter(e_ticket=ticket).exists():
+                    break
+            self.e_ticket = ticket
         super().save(*args, **kwargs)

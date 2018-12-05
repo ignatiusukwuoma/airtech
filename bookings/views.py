@@ -3,11 +3,12 @@ from multiprocessing.dummy import Pool as ThreadPool
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from flights.models import Flight
 from .models import Booking, Trip, Ticket
-from .utils import get_passenger_list, mail_tickets, CONTACT_ID, CONTACT_DETAILS
+from .utils import get_passenger_list, mail_tickets, CONTACT_ID, CONTACT_DETAILS, AIRTECH
 from .forms import PassportForm, PassengerForm, ContactForm, PaymentForm
 
 
@@ -113,7 +114,7 @@ def summary(request):
                    'inbound_class': inbound_class})
 
 
-def payment(request):
+def process_booking(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
         if form.is_valid():
@@ -174,7 +175,7 @@ def payment(request):
                     booking_list.append(this_booking)
 
             pool = ThreadPool(4)
-            results = pool.map(mail_tickets, booking_list)
+            pool.map(mail_tickets, booking_list)
             pool.close()
             pool.join()
             return redirect('success')
@@ -191,3 +192,19 @@ def payment(request):
 
 def success(request):
     return render(request, 'success.html', {'title': 'success'})
+
+
+@csrf_exempt
+def reserved(request):
+    if request.method == 'POST':
+        data = request.body.decode('UTF-8')
+        query = json.loads(data)
+        if query['airline'] != AIRTECH:
+            return JsonResponse({'data': None})
+
+        tickets = Ticket.objects.filter(
+            issue_date=query['date']
+        )
+        reservations_made = tickets.count()
+        return JsonResponse({'data': reservations_made})
+    return JsonResponse({'data': None})

@@ -1,6 +1,6 @@
-from django.forms import ModelForm, Form, CharField, EmailField, IntegerField, ChoiceField, RadioSelect
+from django.forms import ModelForm, Form, CharField, EmailField, IntegerField, ChoiceField, RadioSelect, DateField
 from .models import Profile
-from .utils import phone_regex
+from .utils import phone_regex, AIRTECH
 
 
 class PassportForm(ModelForm):

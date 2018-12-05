@@ -40,6 +40,11 @@ class FlightStatus(Model):
 class Flight(Model):
     """A typical class defining a flight"""
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__last_scheduled = self.scheduled
+        self.__last_datetime_update = self.last_update
+
     flight_number = CharField(max_length=20, unique=True, help_text='Enter flight number')
     departure = ForeignKey(Location, on_delete=SET_NULL, null=True)
     destination = ForeignKey(Location, on_delete=SET_NULL, null=True, related_name='destination_set')

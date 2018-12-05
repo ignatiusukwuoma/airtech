@@ -34,7 +34,7 @@ def index(request):
                    'flight_status_by_number': flight_status_by_number})
 
 
-def flights(request):
+def book_flight(request):
     if request.method == 'POST':
         form = SearchFlights(request.POST)
         if form.is_valid():

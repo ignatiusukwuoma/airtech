@@ -59,7 +59,7 @@ $(document).ready(function() {
 
     $('#submit-flights').click(function(){
         var data = {'outbound': outbound, 'inbound': inbound};
-        var checkRoundTrip = $('.inbound').is(':checked') || ($('.inbound').length && !jQuery.isEmptyObject(inbound));
+        var checkRoundTrip = $('.inbound').is(':checked') || ($('.inbound').length == 0 && $.isEmptyObject(inbound));
         if ($('.outbound').is(':checked') && checkRoundTrip ) {
             $.ajax({
                 type: 'POST',
@@ -120,7 +120,7 @@ $(document).ready(function() {
                 success: function (data, status) {
                     if (status === 'success') {
                         console.log('Successful', data);
-                        location.href = '/bookings/payment'
+                        location.href = '/bookings/process_booking'
                     } else {
                         alert('Something went wrong')
                     }

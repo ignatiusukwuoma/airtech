@@ -2,8 +2,10 @@ import uuid
 from django.core.validators import RegexValidator
 from django.core.mail import send_mail
 
+
 CONTACT_ID = 'contact'
 CONTACT_DETAILS = 'Contact details'
+AIRTECH = 'airtech'
 phone_regex = RegexValidator(regex=r'^0\d{10}$', message="Please enter a Nigerian mobile phone number")
 
 
@@ -46,8 +48,6 @@ def construct_email(booking, trip, ticket):
               f"Flight Details: Flight {ticket.flight.flight_number} from {ticket.flight.departure.city} to " \
               f"{ticket.flight.destination.city} \n " \
               f"Booking ID: {booking.e_booking}"
-    from_email = 'igdefinition@gmail.com'
+    from_email = 'bookings@flyairtech.com'
     recipient_list = [f"{booking.contact_email}"]
     return subject, message, from_email, recipient_list
-
-

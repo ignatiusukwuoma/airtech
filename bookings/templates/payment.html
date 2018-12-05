@@ -29,7 +29,7 @@
             <p>Visit any of our offices Nationwide</p>
             <div>
                 <p>You will pay a fixed amount of <span>N5000</span> to hold your booking</p>
-                <form action="{% url 'payment' %}" method="POST">
+                <form action="{% url 'process_booking' %}" method="POST">
                     {% csrf_token %}
                     {{ form }}
                     <input type="submit" value="Pay N5000">
@@ -43,7 +43,7 @@
             <p>When you pay now, you get your e-ticket immediately</p>
             <div>
                 <p>You will pay a total of <span>{{ price|floatformat:"0" }}</span> to get your ticket(s)</p>
-                <form action="{% url 'payment' %}" method="POST">
+                <form action="{% url 'process_booking' %}" method="POST">
                     {% csrf_token %}
                     {{ form }}
                     <input type="submit" value="Pay N{{ price|floatformat:"0" }}">
