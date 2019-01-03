@@ -13,16 +13,6 @@ from .forms import PassportForm, PassengerForm, ContactForm, PaymentForm
 
 
 def booking(request):
-    if request.method == 'GET':
-        form = PassengerForm()
-        passengers = request.session['passengers']
-        list_of_passengers = get_passenger_list(passengers)
-
-        current_passenger = 'Adult 1'
-        request.session['current_passenger'] = current_passenger
-        request.session['passenger_list'] = list_of_passengers
-        request.session['passenger_details'] = {}
-
     if request.method == 'POST':
         current_passenger = request.session['current_passenger']
         form = ContactForm(request.POST) if current_passenger == CONTACT_DETAILS else PassengerForm(request.POST)
@@ -51,6 +41,15 @@ def booking(request):
                 except KeyError:
                     pass
                 return redirect('summary')
+
+    form = PassengerForm()
+    passengers = request.session['passengers']
+    list_of_passengers = get_passenger_list(passengers)
+
+    current_passenger = 'Adult 1'
+    request.session['current_passenger'] = current_passenger
+    request.session['passenger_list'] = list_of_passengers
+    request.session['passenger_details'] = {}
 
     return render(request,
                   'booking.html',

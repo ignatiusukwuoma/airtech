@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 from django.urls import reverse
 from django.test import TestCase, Client
@@ -6,7 +6,7 @@ from django.utils import timezone
 
 from .models import Flight, Location, FlightStatus, Aircraft
 from .utils import get_flight_duration, add_time, tomorrow
-from .views import flights, flight_status
+from .views import book_flight, flight_status
 
 NOW = timezone.now()
 

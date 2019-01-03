@@ -120,7 +120,7 @@ $(document).ready(function() {
                 success: function (data, status) {
                     if (status === 'success') {
                         console.log('Successful', data);
-                        location.href = '/bookings/process_booking'
+                        location.href = '/bookings/process'
                     } else {
                         alert('Something went wrong')
                     }
